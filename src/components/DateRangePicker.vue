@@ -649,6 +649,7 @@
 
         this.start = this.$dateUtil.validateDateRange(start, this.minDate, this.maxDate);
 
+        this.$emit('select', {startDate: this.start, endDate: this.end});
         // if autoapply is ON we should update the value on time selection change
         if (this.autoApply) {
           this.$emit('update', {startDate: this.start, endDate: this.singleDatePicker && this.singleDatePicker !== 'range' ? this.start : this.end})
@@ -662,6 +663,7 @@
 
         this.end = this.$dateUtil.validateDateRange(end, this.minDate, this.maxDate);
 
+        this.$emit('select', {startDate: this.start, endDate: this.end});
         // if autoapply is ON we should update the value on time selection change
         if (this.autoApply) {
           this.$emit('update', {startDate: this.start, endDate: this.end})

@@ -16,3 +16,17 @@ selenium-debug.log
 
 docs/.vuepress/dist
 docs/docs.json
+tests/
+docs/README.md
+docs/.scripts/config.json
+docs/.scripts/parse.js
+docs/.vuepress/config.js
+docs/.vuepress/components/ComponentEvents.vue
+docs/.vuepress/components/ComponentProps.vue
+docs/.vuepress/components/ComponentSlots.vue
+docs/.vuepress/components/demo.vue
+docs/.vuepress/components/disabled-dates.vue
+docs/.vuepress/components/SlotsDemo.vue
+docs/.vuepress/styles/index.styl
+docs/.vuepress/styles/palette.styl
+docs/advanced/README.md
