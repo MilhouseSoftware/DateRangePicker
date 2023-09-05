@@ -102,37 +102,6 @@ module.exports = String(test) === '[object z]';
 
 /***/ }),
 
-/***/ "0366":
-/***/ (function(module, exports, __webpack_require__) {
-
-var aFunction = __webpack_require__("1c0b");
-
-// optional / simple context binding
-module.exports = function (fn, that, length) {
-  aFunction(fn);
-  if (that === undefined) return fn;
-  switch (length) {
-    case 0: return function () {
-      return fn.call(that);
-    };
-    case 1: return function (a) {
-      return fn.call(that, a);
-    };
-    case 2: return function (a, b) {
-      return fn.call(that, a, b);
-    };
-    case 3: return function (a, b, c) {
-      return fn.call(that, a, b, c);
-    };
-  }
-  return function (/* ...args */) {
-    return fn.apply(that, arguments);
-  };
-};
-
-
-/***/ }),
-
 /***/ "057f":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -213,7 +182,7 @@ module.exports = !DESCRIPTORS && !fails(function () {
 /* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DateRangePicker_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("beb7");
 /* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DateRangePicker_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DateRangePicker_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
 /* unused harmony reexport * */
-
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DateRangePicker_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -274,15 +243,11 @@ for (var COLLECTION_NAME in DOMIterables) {
 "use strict";
 
 var $forEach = __webpack_require__("b727").forEach;
-var arrayMethodIsStrict = __webpack_require__("a640");
-var arrayMethodUsesToLength = __webpack_require__("ae40");
-
-var STRICT_METHOD = arrayMethodIsStrict('forEach');
-var USES_TO_LENGTH = arrayMethodUsesToLength('forEach');
+var sloppyArrayMethod = __webpack_require__("b301");
 
 // `Array.prototype.forEach` method implementation
 // https://tc39.github.io/ecma262/#sec-array.prototype.foreach
-module.exports = (!STRICT_METHOD || !USES_TO_LENGTH) ? function forEach(callbackfn /* , thisArg */) {
+module.exports = sloppyArrayMethod('forEach') ? function forEach(callbackfn /* , thisArg */) {
   return $forEach(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
 } : [].forEach;
 
@@ -374,7 +339,7 @@ module.exports = function (it) {
 
 var fails = __webpack_require__("d039");
 var wellKnownSymbol = __webpack_require__("b622");
-var V8_VERSION = __webpack_require__("2d00");
+var V8_VERSION = __webpack_require__("60ae");
 
 var SPECIES = wellKnownSymbol('species');
 
@@ -525,58 +490,6 @@ if (NOT_GENERIC || INCORRECT_NAME) {
 
 /***/ }),
 
-/***/ "2a62":
-/***/ (function(module, exports, __webpack_require__) {
-
-var anObject = __webpack_require__("825a");
-
-module.exports = function (iterator) {
-  var returnMethod = iterator['return'];
-  if (returnMethod !== undefined) {
-    return anObject(returnMethod.call(iterator)).value;
-  }
-};
-
-
-/***/ }),
-
-/***/ "2d00":
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__("da84");
-var userAgent = __webpack_require__("342f");
-
-var process = global.process;
-var versions = process && process.versions;
-var v8 = versions && versions.v8;
-var match, version;
-
-if (v8) {
-  match = v8.split('.');
-  version = match[0] + match[1];
-} else if (userAgent) {
-  match = userAgent.match(/Edge\/(\d+)/);
-  if (!match || match[1] >= 74) {
-    match = userAgent.match(/Chrome\/(\d+)/);
-    if (match) version = match[1];
-  }
-}
-
-module.exports = version && +version;
-
-
-/***/ }),
-
-/***/ "342f":
-/***/ (function(module, exports, __webpack_require__) {
-
-var getBuiltIn = __webpack_require__("d066");
-
-module.exports = getBuiltIn('navigator', 'userAgent') || '';
-
-
-/***/ }),
-
 /***/ "35a1":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -592,6 +505,13 @@ module.exports = function (it) {
     || Iterators[classof(it)];
 };
 
+
+/***/ }),
+
+/***/ "3636":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -677,20 +597,14 @@ module.exports = {};
 
 /***/ }),
 
-/***/ "4160":
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "4241":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-var $ = __webpack_require__("23e7");
-var forEach = __webpack_require__("17c2");
-
-// `Array.prototype.forEach` method
-// https://tc39.github.io/ecma262/#sec-array.prototype.foreach
-$({ target: 'Array', proto: true, forced: [].forEach != forEach }, {
-  forEach: forEach
-});
-
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Calendar_vue_vue_type_style_index_0_id_1ee42226_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("3636");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Calendar_vue_vue_type_style_index_0_id_1ee42226_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Calendar_vue_vue_type_style_index_0_id_1ee42226_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Calendar_vue_vue_type_style_index_0_id_1ee42226_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -729,7 +643,7 @@ module.exports = fails(function () {
 
 var wellKnownSymbol = __webpack_require__("b622");
 var create = __webpack_require__("7c73");
-var definePropertyModule = __webpack_require__("9bf2");
+var createNonEnumerableProperty = __webpack_require__("9112");
 
 var UNSCOPABLES = wellKnownSymbol('unscopables');
 var ArrayPrototype = Array.prototype;
@@ -737,10 +651,7 @@ var ArrayPrototype = Array.prototype;
 // Array.prototype[@@unscopables]
 // https://tc39.github.io/ecma262/#sec-array.prototype-@@unscopables
 if (ArrayPrototype[UNSCOPABLES] == undefined) {
-  definePropertyModule.f(ArrayPrototype, UNSCOPABLES, {
-    configurable: true,
-    value: create(null)
-  });
+  createNonEnumerableProperty(ArrayPrototype, UNSCOPABLES, create(null));
 }
 
 // add a key to Array.prototype[@@unscopables]
@@ -817,13 +728,6 @@ module.exports = !!Object.getOwnPropertySymbols && !fails(function () {
 
 /***/ }),
 
-/***/ "4c6c":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
 /***/ "4d64":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -870,12 +774,14 @@ module.exports = {
 
 var $ = __webpack_require__("23e7");
 var $filter = __webpack_require__("b727").filter;
+var fails = __webpack_require__("d039");
 var arrayMethodHasSpeciesSupport = __webpack_require__("1dde");
-var arrayMethodUsesToLength = __webpack_require__("ae40");
 
 var HAS_SPECIES_SUPPORT = arrayMethodHasSpeciesSupport('filter');
 // Edge 14- issue
-var USES_TO_LENGTH = arrayMethodUsesToLength('filter');
+var USES_TO_LENGTH = HAS_SPECIES_SUPPORT && !fails(function () {
+  [].filter.call({ length: -1, 0: 1 }, function (it) { throw it; });
+});
 
 // `Array.prototype.filter` method
 // https://tc39.github.io/ecma262/#sec-array.prototype.filter
@@ -894,7 +800,7 @@ $({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT || !USES_TO_LENGT
 
 "use strict";
 
-var bind = __webpack_require__("0366");
+var bind = __webpack_require__("f8c2");
 var toObject = __webpack_require__("7b0b");
 var callWithSafeIterationClosing = __webpack_require__("9bdd");
 var isArrayIteratorMethod = __webpack_require__("e95a");
@@ -910,9 +816,9 @@ module.exports = function from(arrayLike /* , mapfn = undefined, thisArg = undef
   var argumentsLength = arguments.length;
   var mapfn = argumentsLength > 1 ? arguments[1] : undefined;
   var mapping = mapfn !== undefined;
-  var iteratorMethod = getIteratorMethod(O);
   var index = 0;
-  var length, result, step, iterator, next, value;
+  var iteratorMethod = getIteratorMethod(O);
+  var length, result, step, iterator, next;
   if (mapping) mapfn = bind(mapfn, argumentsLength > 2 ? arguments[2] : undefined, 2);
   // if the target is not iterable or it's an array with the default iterator - use a simple case
   if (iteratorMethod != undefined && !(C == Array && isArrayIteratorMethod(iteratorMethod))) {
@@ -920,15 +826,16 @@ module.exports = function from(arrayLike /* , mapfn = undefined, thisArg = undef
     next = iterator.next;
     result = new C();
     for (;!(step = next.call(iterator)).done; index++) {
-      value = mapping ? callWithSafeIterationClosing(iterator, mapfn, [step.value, index], true) : step.value;
-      createProperty(result, index, value);
+      createProperty(result, index, mapping
+        ? callWithSafeIterationClosing(iterator, mapfn, [step.value, index], true)
+        : step.value
+      );
     }
   } else {
     length = toLength(O.length);
     result = new C(length);
     for (;length > index; index++) {
-      value = mapping ? mapfn(O[index], index) : O[index];
-      createProperty(result, index, value);
+      createProperty(result, index, mapping ? mapfn(O[index], index) : O[index]);
     }
   }
   result.length = index;
@@ -991,11 +898,7 @@ var maybeToString = function (it) {
 };
 
 // @@replace logic
-fixRegExpWellKnownSymbolLogic('replace', 2, function (REPLACE, nativeReplace, maybeCallNative, reason) {
-  var REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE = reason.REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE;
-  var REPLACE_KEEPS_$0 = reason.REPLACE_KEEPS_$0;
-  var UNSAFE_SUBSTITUTE = REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE ? '$' : '$0';
-
+fixRegExpWellKnownSymbolLogic('replace', 2, function (REPLACE, nativeReplace, maybeCallNative) {
   return [
     // `String.prototype.replace` method
     // https://tc39.github.io/ecma262/#sec-string.prototype.replace
@@ -1009,13 +912,8 @@ fixRegExpWellKnownSymbolLogic('replace', 2, function (REPLACE, nativeReplace, ma
     // `RegExp.prototype[@@replace]` method
     // https://tc39.github.io/ecma262/#sec-regexp.prototype-@@replace
     function (regexp, replaceValue) {
-      if (
-        (!REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE && REPLACE_KEEPS_$0) ||
-        (typeof replaceValue === 'string' && replaceValue.indexOf(UNSAFE_SUBSTITUTE) === -1)
-      ) {
-        var res = maybeCallNative(nativeReplace, regexp, this, replaceValue);
-        if (res.done) return res.value;
-      }
+      var res = maybeCallNative(nativeReplace, regexp, this, replaceValue);
+      if (res.done) return res.value;
 
       var rx = anObject(regexp);
       var S = String(this);
@@ -1135,85 +1033,21 @@ fixRegExpWellKnownSymbolLogic('replace', 2, function (REPLACE, nativeReplace, ma
 
 
 
-function _typeof(obj) {
-  "@babel/helpers - typeof";
 
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+function _typeof2(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof2 = function _typeof2(obj) { return typeof obj; }; } else { _typeof2 = function _typeof2(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof2(obj); }
+
+function _typeof(obj) {
+  if (typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol") {
     _typeof = function _typeof(obj) {
-      return typeof obj;
+      return _typeof2(obj);
     };
   } else {
     _typeof = function _typeof(obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : _typeof2(obj);
     };
   }
 
   return _typeof(obj);
-}
-
-/***/ }),
-
-/***/ "5530":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectSpread2; });
-/* harmony import */ var core_js_modules_es_symbol__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("a4d3");
-/* harmony import */ var core_js_modules_es_symbol__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_symbol__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("4de4");
-/* harmony import */ var core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("4160");
-/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var core_js_modules_es_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("e439");
-/* harmony import */ var core_js_modules_es_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var core_js_modules_es_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("dbb4");
-/* harmony import */ var core_js_modules_es_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var core_js_modules_es_object_keys__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("b64b");
-/* harmony import */ var core_js_modules_es_object_keys__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_keys__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("159b");
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__("ade3");
-
-
-
-
-
-
-
-
-
-function ownKeys(object, enumerableOnly) {
-  var keys = Object.keys(object);
-
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object);
-    if (enumerableOnly) symbols = symbols.filter(function (sym) {
-      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-    });
-    keys.push.apply(keys, symbols);
-  }
-
-  return keys;
-}
-
-function _objectSpread2(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-
-    if (i % 2) {
-      ownKeys(Object(source), true).forEach(function (key) {
-        Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__[/* default */ "a"])(target, key, source[key]);
-      });
-    } else if (Object.getOwnPropertyDescriptors) {
-      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-    } else {
-      ownKeys(Object(source)).forEach(function (key) {
-        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-      });
-    }
-  }
-
-  return target;
 }
 
 /***/ }),
@@ -1227,9 +1061,9 @@ var store = __webpack_require__("c6cd");
 (module.exports = function (key, value) {
   return store[key] || (store[key] = value !== undefined ? value : {});
 })('versions', []).push({
-  version: '3.7.0',
+  version: '3.5.0',
   mode: IS_PURE ? 'pure' : 'global',
-  copyright: '© 2020 Denis Pushkarev (zloirock.ru)'
+  copyright: '© 2019 Denis Pushkarev (zloirock.ru)'
 });
 
 
@@ -1313,6 +1147,33 @@ module.exports = function (bitmap, value) {
 
 /***/ }),
 
+/***/ "60ae":
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__("da84");
+var userAgent = __webpack_require__("b39a");
+
+var process = global.process;
+var versions = process && process.versions;
+var v8 = versions && versions.v8;
+var match, version;
+
+if (v8) {
+  match = v8.split('.');
+  version = match[0] + match[1];
+} else if (userAgent) {
+  match = userAgent.match(/Edge\/(\d+)/);
+  if (!match || match[1] >= 74) {
+    match = userAgent.match(/Chrome\/(\d+)/);
+    if (match) version = match[1];
+  }
+}
+
+module.exports = version && +version;
+
+
+/***/ }),
+
 /***/ "6547":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1374,6 +1235,17 @@ module.exports = function (originalArray, length) {
 
 /***/ }),
 
+/***/ "6900":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DateRangePicker_vue_vue_type_style_index_1_id_3ce4db26_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("7524");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DateRangePicker_vue_vue_type_style_index_1_id_3ce4db26_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DateRangePicker_vue_vue_type_style_index_1_id_3ce4db26_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DateRangePicker_vue_vue_type_style_index_1_id_3ce4db26_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
 /***/ "69f3":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1382,7 +1254,6 @@ var global = __webpack_require__("da84");
 var isObject = __webpack_require__("861d");
 var createNonEnumerableProperty = __webpack_require__("9112");
 var objectHas = __webpack_require__("5135");
-var shared = __webpack_require__("c6cd");
 var sharedKey = __webpack_require__("f772");
 var hiddenKeys = __webpack_require__("d012");
 
@@ -1403,12 +1274,11 @@ var getterFor = function (TYPE) {
 };
 
 if (NATIVE_WEAK_MAP) {
-  var store = shared.state || (shared.state = new WeakMap());
+  var store = new WeakMap();
   var wmget = store.get;
   var wmhas = store.has;
   var wmset = store.set;
   set = function (it, metadata) {
-    metadata.facade = it;
     wmset.call(store, it, metadata);
     return metadata;
   };
@@ -1422,7 +1292,6 @@ if (NATIVE_WEAK_MAP) {
   var STATE = sharedKey('state');
   hiddenKeys[STATE] = true;
   set = function (it, metadata) {
-    metadata.facade = it;
     createNonEnumerableProperty(it, STATE, metadata);
     return metadata;
   };
@@ -1463,15 +1332,9 @@ var TEMPLATE = String(String).split('String');
   var unsafe = options ? !!options.unsafe : false;
   var simple = options ? !!options.enumerable : false;
   var noTargetGet = options ? !!options.noTargetGet : false;
-  var state;
   if (typeof value == 'function') {
-    if (typeof key == 'string' && !has(value, 'name')) {
-      createNonEnumerableProperty(value, 'name', key);
-    }
-    state = enforceInternalState(value);
-    if (!state.source) {
-      state.source = TEMPLATE.join(typeof key == 'string' ? key : '');
-    }
+    if (typeof key == 'string' && !has(value, 'name')) createNonEnumerableProperty(value, 'name', key);
+    enforceInternalState(value).source = TEMPLATE.join(typeof key == 'string' ? key : '');
   }
   if (O === global) {
     if (simple) O[key] = value;
@@ -1529,7 +1392,7 @@ exports.f = Object.getOwnPropertySymbols;
 
 var path = __webpack_require__("428f");
 var has = __webpack_require__("5135");
-var wrappedWellKnownSymbolModule = __webpack_require__("e538");
+var wrappedWellKnownSymbolModule = __webpack_require__("c032");
 var defineProperty = __webpack_require__("9bf2").f;
 
 module.exports = function (NAME) {
@@ -1539,6 +1402,13 @@ module.exports = function (NAME) {
   });
 };
 
+
+/***/ }),
+
+/***/ "7524":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -1563,8 +1433,13 @@ module.exports = [
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.symbol.js
+var es_symbol = __webpack_require__("a4d3");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.filter.js
+var es_array_filter = __webpack_require__("4de4");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.map.js
 var es_array_map = __webpack_require__("d81d");
@@ -1572,14 +1447,23 @@ var es_array_map = __webpack_require__("d81d");
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.slice.js
 var es_array_slice = __webpack_require__("fb6a");
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread2.js
-var objectSpread2 = __webpack_require__("5530");
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.get-own-property-descriptor.js
+var es_object_get_own_property_descriptor = __webpack_require__("e439");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.get-own-property-descriptors.js
+var es_object_get_own_property_descriptors = __webpack_require__("dbb4");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.keys.js
+var es_object_keys = __webpack_require__("b64b");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom-collections.for-each.js
+var web_dom_collections_for_each = __webpack_require__("159b");
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
+var defineProperty = __webpack_require__("ade3");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.to-string.js
 var es_object_to_string = __webpack_require__("d3b7");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.regexp.exec.js
-var es_regexp_exec = __webpack_require__("ac1f");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.match.js
 var es_string_match = __webpack_require__("466d");
@@ -1604,7 +1488,6 @@ var esm_typeof = __webpack_require__("53ca");
  * The date defaults to the current date/time.
  * The mask defaults to dateFormat.masks.default.
  */
-
 
 
 
@@ -1819,6 +1702,17 @@ function kindOf(val) {
 
 
 
+
+
+
+
+
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+
 var DateUtil = {
   isSame: function isSame(date1, date2, granularity) {
     var dt1 = new Date(date1);
@@ -1881,7 +1775,7 @@ var DateUtil = {
       monthNames: dateFormat.i18n.monthNames.slice(0, 12),
       firstDay: 0
     };
-    return Object(objectSpread2["a" /* default */])(Object(objectSpread2["a" /* default */])({}, default_locale), options);
+    return _objectSpread({}, default_locale, {}, options);
   },
   yearMonth: function yearMonth(date) {
     var month = date.getMonth() + 1;
@@ -1919,77 +1813,48 @@ var hiddenKeys = __webpack_require__("d012");
 var html = __webpack_require__("1be4");
 var documentCreateElement = __webpack_require__("cc12");
 var sharedKey = __webpack_require__("f772");
-
-var GT = '>';
-var LT = '<';
-var PROTOTYPE = 'prototype';
-var SCRIPT = 'script';
 var IE_PROTO = sharedKey('IE_PROTO');
 
-var EmptyConstructor = function () { /* empty */ };
-
-var scriptTag = function (content) {
-  return LT + SCRIPT + GT + content + LT + '/' + SCRIPT + GT;
-};
-
-// Create object with fake `null` prototype: use ActiveX Object with cleared prototype
-var NullProtoObjectViaActiveX = function (activeXDocument) {
-  activeXDocument.write(scriptTag(''));
-  activeXDocument.close();
-  var temp = activeXDocument.parentWindow.Object;
-  activeXDocument = null; // avoid memory leak
-  return temp;
-};
+var PROTOTYPE = 'prototype';
+var Empty = function () { /* empty */ };
 
 // Create object with fake `null` prototype: use iframe Object with cleared prototype
-var NullProtoObjectViaIFrame = function () {
+var createDict = function () {
   // Thrash, waste and sodomy: IE GC bug
   var iframe = documentCreateElement('iframe');
-  var JS = 'java' + SCRIPT + ':';
+  var length = enumBugKeys.length;
+  var lt = '<';
+  var script = 'script';
+  var gt = '>';
+  var js = 'java' + script + ':';
   var iframeDocument;
   iframe.style.display = 'none';
   html.appendChild(iframe);
-  // https://github.com/zloirock/core-js/issues/475
-  iframe.src = String(JS);
+  iframe.src = String(js);
   iframeDocument = iframe.contentWindow.document;
   iframeDocument.open();
-  iframeDocument.write(scriptTag('document.F=Object'));
+  iframeDocument.write(lt + script + gt + 'document.F=Object' + lt + '/' + script + gt);
   iframeDocument.close();
-  return iframeDocument.F;
+  createDict = iframeDocument.F;
+  while (length--) delete createDict[PROTOTYPE][enumBugKeys[length]];
+  return createDict();
 };
-
-// Check for document.domain and active x support
-// No need to use active x approach when document.domain is not set
-// see https://github.com/es-shims/es5-shim/issues/150
-// variation of https://github.com/kitcambridge/es5-shim/commit/4f738ac066346
-// avoid IE GC bug
-var activeXDocument;
-var NullProtoObject = function () {
-  try {
-    /* global ActiveXObject */
-    activeXDocument = document.domain && new ActiveXObject('htmlfile');
-  } catch (error) { /* ignore */ }
-  NullProtoObject = activeXDocument ? NullProtoObjectViaActiveX(activeXDocument) : NullProtoObjectViaIFrame();
-  var length = enumBugKeys.length;
-  while (length--) delete NullProtoObject[PROTOTYPE][enumBugKeys[length]];
-  return NullProtoObject();
-};
-
-hiddenKeys[IE_PROTO] = true;
 
 // `Object.create` method
 // https://tc39.github.io/ecma262/#sec-object.create
 module.exports = Object.create || function create(O, Properties) {
   var result;
   if (O !== null) {
-    EmptyConstructor[PROTOTYPE] = anObject(O);
-    result = new EmptyConstructor();
-    EmptyConstructor[PROTOTYPE] = null;
+    Empty[PROTOTYPE] = anObject(O);
+    result = new Empty();
+    Empty[PROTOTYPE] = null;
     // add "__proto__" for Object.getPrototypeOf polyfill
     result[IE_PROTO] = O;
-  } else result = NullProtoObject();
+  } else result = createDict();
   return Properties === undefined ? result : defineProperties(result, Properties);
 };
+
+hiddenKeys[IE_PROTO] = true;
 
 
 /***/ }),
@@ -2002,19 +1867,16 @@ module.exports = Object.create || function create(O, Properties) {
 var $ = __webpack_require__("23e7");
 var $find = __webpack_require__("b727").find;
 var addToUnscopables = __webpack_require__("44d2");
-var arrayMethodUsesToLength = __webpack_require__("ae40");
 
 var FIND = 'find';
 var SKIPS_HOLES = true;
-
-var USES_TO_LENGTH = arrayMethodUsesToLength(FIND);
 
 // Shouldn't skip holes
 if (FIND in []) Array(1)[FIND](function () { SKIPS_HOLES = false; });
 
 // `Array.prototype.find` method
 // https://tc39.github.io/ecma262/#sec-array.prototype.find
-$({ target: 'Array', proto: true, forced: SKIPS_HOLES || !USES_TO_LENGTH }, {
+$({ target: 'Array', proto: true, forced: SKIPS_HOLES }, {
   find: function find(callbackfn /* , that = undefined */) {
     return $find(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
   }
@@ -2158,7 +2020,7 @@ var fails = __webpack_require__("d039");
 
 // Thank's IE8 for his funny defineProperty
 module.exports = !fails(function () {
-  return Object.defineProperty({}, 1, { get: function () { return 7; } })[1] != 7;
+  return Object.defineProperty({}, 'a', { get: function () { return 7; } }).a != 7;
 });
 
 
@@ -2188,91 +2050,6 @@ module.exports = function (object, key, value) {
 module.exports = function (it) {
   return typeof it === 'object' ? it !== null : typeof it === 'function';
 };
-
-
-/***/ }),
-
-/***/ "8875":
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// addapted from the document.currentScript polyfill by Adam Miller
-// MIT license
-// source: https://github.com/amiller-gh/currentScript-polyfill
-
-// added support for Firefox https://bugzilla.mozilla.org/show_bug.cgi?id=1620505
-
-(function (root, factory) {
-  if (true) {
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-  } else {}
-}(typeof self !== 'undefined' ? self : this, function () {
-  function getCurrentScript () {
-    var descriptor = Object.getOwnPropertyDescriptor(document, 'currentScript')
-    // for chrome
-    if (!descriptor && 'currentScript' in document && document.currentScript) {
-      return document.currentScript
-    }
-
-    // for other browsers with native support for currentScript
-    if (descriptor && descriptor.get !== getCurrentScript && document.currentScript) {
-      return document.currentScript
-    }
-  
-    // IE 8-10 support script readyState
-    // IE 11+ & Firefox support stack trace
-    try {
-      throw new Error();
-    }
-    catch (err) {
-      // Find the second match for the "at" string to get file src url from stack.
-      var ieStackRegExp = /.*at [^(]*\((.*):(.+):(.+)\)$/ig,
-        ffStackRegExp = /@([^@]*):(\d+):(\d+)\s*$/ig,
-        stackDetails = ieStackRegExp.exec(err.stack) || ffStackRegExp.exec(err.stack),
-        scriptLocation = (stackDetails && stackDetails[1]) || false,
-        line = (stackDetails && stackDetails[2]) || false,
-        currentLocation = document.location.href.replace(document.location.hash, ''),
-        pageSource,
-        inlineScriptSourceRegExp,
-        inlineScriptSource,
-        scripts = document.getElementsByTagName('script'); // Live NodeList collection
-  
-      if (scriptLocation === currentLocation) {
-        pageSource = document.documentElement.outerHTML;
-        inlineScriptSourceRegExp = new RegExp('(?:[^\\n]+?\\n){0,' + (line - 2) + '}[^<]*<script>([\\d\\D]*?)<\\/script>[\\d\\D]*', 'i');
-        inlineScriptSource = pageSource.replace(inlineScriptSourceRegExp, '$1').trim();
-      }
-  
-      for (var i = 0; i < scripts.length; i++) {
-        // If ready state is interactive, return the script tag
-        if (scripts[i].readyState === 'interactive') {
-          return scripts[i];
-        }
-  
-        // If src matches, return the script tag
-        if (scripts[i].src === scriptLocation) {
-          return scripts[i];
-        }
-  
-        // If inline source matches, return the script tag
-        if (
-          scriptLocation === currentLocation &&
-          scripts[i].innerHTML &&
-          scripts[i].innerHTML.trim() === inlineScriptSource
-        ) {
-          return scripts[i];
-        }
-      }
-  
-      // If no match, return null
-      return null;
-    }
-  };
-
-  return getCurrentScript
-}));
 
 
 /***/ }),
@@ -2348,7 +2125,6 @@ module.exports = DESCRIPTORS ? function (object, key, value) {
 "use strict";
 
 var regexpFlags = __webpack_require__("ad6d");
-var stickyHelpers = __webpack_require__("9f7f");
 
 var nativeExec = RegExp.prototype.exec;
 // This always refers to the native implementation, because the
@@ -2366,56 +2142,24 @@ var UPDATES_LAST_INDEX_WRONG = (function () {
   return re1.lastIndex !== 0 || re2.lastIndex !== 0;
 })();
 
-var UNSUPPORTED_Y = stickyHelpers.UNSUPPORTED_Y || stickyHelpers.BROKEN_CARET;
-
 // nonparticipating capturing group, copied from es5-shim's String#split patch.
 var NPCG_INCLUDED = /()??/.exec('')[1] !== undefined;
 
-var PATCH = UPDATES_LAST_INDEX_WRONG || NPCG_INCLUDED || UNSUPPORTED_Y;
+var PATCH = UPDATES_LAST_INDEX_WRONG || NPCG_INCLUDED;
 
 if (PATCH) {
   patchedExec = function exec(str) {
     var re = this;
     var lastIndex, reCopy, match, i;
-    var sticky = UNSUPPORTED_Y && re.sticky;
-    var flags = regexpFlags.call(re);
-    var source = re.source;
-    var charsAdded = 0;
-    var strCopy = str;
-
-    if (sticky) {
-      flags = flags.replace('y', '');
-      if (flags.indexOf('g') === -1) {
-        flags += 'g';
-      }
-
-      strCopy = String(str).slice(re.lastIndex);
-      // Support anchored sticky behavior.
-      if (re.lastIndex > 0 && (!re.multiline || re.multiline && str[re.lastIndex - 1] !== '\n')) {
-        source = '(?: ' + source + ')';
-        strCopy = ' ' + strCopy;
-        charsAdded++;
-      }
-      // ^(? + rx + ) is needed, in combination with some str slicing, to
-      // simulate the 'y' flag.
-      reCopy = new RegExp('^(?:' + source + ')', flags);
-    }
 
     if (NPCG_INCLUDED) {
-      reCopy = new RegExp('^' + source + '$(?!\\s)', flags);
+      reCopy = new RegExp('^' + re.source + '$(?!\\s)', regexpFlags.call(re));
     }
     if (UPDATES_LAST_INDEX_WRONG) lastIndex = re.lastIndex;
 
-    match = nativeExec.call(sticky ? reCopy : re, strCopy);
+    match = nativeExec.call(re, str);
 
-    if (sticky) {
-      if (match) {
-        match.input = match.input.slice(charsAdded);
-        match[0] = match[0].slice(charsAdded);
-        match.index = re.lastIndex;
-        re.lastIndex += match[0].length;
-      } else re.lastIndex = 0;
-    } else if (UPDATES_LAST_INDEX_WRONG && match) {
+    if (UPDATES_LAST_INDEX_WRONG && match) {
       re.lastIndex = re.global ? match.index + match[0].length : lastIndex;
     }
     if (NPCG_INCLUDED && match && match.length > 1) {
@@ -2469,7 +2213,6 @@ module.exports = isForced;
 /***/ (function(module, exports, __webpack_require__) {
 
 var anObject = __webpack_require__("825a");
-var iteratorClose = __webpack_require__("2a62");
 
 // call something on iterator step with safe closing on error
 module.exports = function (iterator, fn, value, ENTRIES) {
@@ -2477,7 +2220,8 @@ module.exports = function (iterator, fn, value, ENTRIES) {
     return ENTRIES ? fn(anObject(value)[0], value[1]) : fn(value);
   // 7.4.6 IteratorClose(iterator, completion)
   } catch (error) {
-    iteratorClose(iterator);
+    var returnMethod = iterator['return'];
+    if (returnMethod !== undefined) anObject(returnMethod.call(iterator));
     throw error;
   }
 };
@@ -2536,37 +2280,6 @@ module.exports = function (IteratorConstructor, NAME, next) {
 
 /***/ }),
 
-/***/ "9f7f":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var fails = __webpack_require__("d039");
-
-// babel-minify transpiles RegExp('a', 'y') -> /a/y and it causes SyntaxError,
-// so we use an intermediate function.
-function RE(s, f) {
-  return RegExp(s, f);
-}
-
-exports.UNSUPPORTED_Y = fails(function () {
-  // babel-minify transpiles RegExp('a', 'y') -> /a/y and it causes SyntaxError
-  var re = RE('a', 'y');
-  re.lastIndex = 2;
-  return re.exec('abcd') != null;
-});
-
-exports.BROKEN_CARET = fails(function () {
-  // https://bugzilla.mozilla.org/show_bug.cgi?id=773687
-  var re = RE('^r', 'gy');
-  re.lastIndex = 2;
-  return re.exec('str') != null;
-});
-
-
-/***/ }),
-
 /***/ "a4d3":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2603,7 +2316,7 @@ var sharedKey = __webpack_require__("f772");
 var hiddenKeys = __webpack_require__("d012");
 var uid = __webpack_require__("90e3");
 var wellKnownSymbol = __webpack_require__("b622");
-var wrappedWellKnownSymbolModule = __webpack_require__("e538");
+var wrappedWellKnownSymbolModule = __webpack_require__("c032");
 var defineWellKnownSymbol = __webpack_require__("746f");
 var setToStringTag = __webpack_require__("d44e");
 var InternalStateModule = __webpack_require__("69f3");
@@ -2656,7 +2369,7 @@ var wrap = function (tag, description) {
   return symbol;
 };
 
-var isSymbol = USE_SYMBOL_AS_UID ? function (it) {
+var isSymbol = NATIVE_SYMBOL && typeof $Symbol.iterator == 'symbol' ? function (it) {
   return typeof it == 'symbol';
 } : function (it) {
   return Object(it) instanceof $Symbol;
@@ -2751,19 +2464,11 @@ if (!NATIVE_SYMBOL) {
     return getInternalState(this).tag;
   });
 
-  redefine($Symbol, 'withoutSetter', function (description) {
-    return wrap(uid(description), description);
-  });
-
   propertyIsEnumerableModule.f = $propertyIsEnumerable;
   definePropertyModule.f = $defineProperty;
   getOwnPropertyDescriptorModule.f = $getOwnPropertyDescriptor;
   getOwnPropertyNamesModule.f = getOwnPropertyNamesExternal.f = $getOwnPropertyNames;
   getOwnPropertySymbolsModule.f = $getOwnPropertySymbols;
-
-  wrappedWellKnownSymbolModule.f = function (name) {
-    return wrap(wellKnownSymbol(name), name);
-  };
 
   if (DESCRIPTORS) {
     // https://github.com/tc39/proposal-Symbol-description
@@ -2777,6 +2482,12 @@ if (!NATIVE_SYMBOL) {
       redefine(ObjectPrototype, 'propertyIsEnumerable', $propertyIsEnumerable, { unsafe: true });
     }
   }
+}
+
+if (!USE_SYMBOL_AS_UID) {
+  wrappedWellKnownSymbolModule.f = function (name) {
+    return wrap(wellKnownSymbol(name), name);
+  };
 }
 
 $({ global: true, wrap: true, forced: !NATIVE_SYMBOL, sham: !NATIVE_SYMBOL }, {
@@ -2906,35 +2617,6 @@ $({ target: 'Array', stat: true, forced: INCORRECT_ITERATION }, {
 
 /***/ }),
 
-/***/ "a640":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var fails = __webpack_require__("d039");
-
-module.exports = function (METHOD_NAME, argument) {
-  var method = [][METHOD_NAME];
-  return !!method && fails(function () {
-    // eslint-disable-next-line no-useless-call,no-throw-literal
-    method.call(null, argument || function () { throw 1; }, 1);
-  });
-};
-
-
-/***/ }),
-
-/***/ "a678":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Calendar_vue_vue_type_style_index_0_id_6ca52014_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("4c6c");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Calendar_vue_vue_type_style_index_0_id_6ca52014_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Calendar_vue_vue_type_style_index_0_id_6ca52014_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
-
-
-/***/ }),
-
 /***/ "a691":
 /***/ (function(module, exports) {
 
@@ -2977,13 +2659,6 @@ webpackContext.keys = function webpackContextKeys() {
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
 webpackContext.id = "a6da";
-
-/***/ }),
-
-/***/ "a99d":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -3073,21 +2748,6 @@ if (isForced(NUMBER, !NativeNumber(' 0o1') || !NativeNumber('0b1') || NativeNumb
 
 /***/ }),
 
-/***/ "ac1f":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $ = __webpack_require__("23e7");
-var exec = __webpack_require__("9263");
-
-$({ target: 'RegExp', proto: true, forced: /./.exec !== exec }, {
-  exec: exec
-});
-
-
-/***/ }),
-
 /***/ "ad6d":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3131,40 +2791,6 @@ function _defineProperty(obj, key, value) {
 
   return obj;
 }
-
-/***/ }),
-
-/***/ "ae40":
-/***/ (function(module, exports, __webpack_require__) {
-
-var DESCRIPTORS = __webpack_require__("83ab");
-var fails = __webpack_require__("d039");
-var has = __webpack_require__("5135");
-
-var defineProperty = Object.defineProperty;
-var cache = {};
-
-var thrower = function (it) { throw it; };
-
-module.exports = function (METHOD_NAME, options) {
-  if (has(cache, METHOD_NAME)) return cache[METHOD_NAME];
-  if (!options) options = {};
-  var method = [][METHOD_NAME];
-  var ACCESSORS = has(options, 'ACCESSORS') ? options.ACCESSORS : false;
-  var argument0 = has(options, 0) ? options[0] : thrower;
-  var argument1 = has(options, 1) ? options[1] : undefined;
-
-  return cache[METHOD_NAME] = !!method && !fails(function () {
-    if (ACCESSORS && !DESCRIPTORS) return true;
-    var O = { length: -1 };
-
-    if (ACCESSORS) defineProperty(O, 1, { enumerable: true, get: thrower });
-    else O[1] = 1;
-
-    method.call(O, argument0, argument1);
-  });
-};
-
 
 /***/ }),
 
@@ -3230,31 +2856,30 @@ module.exports = TO_STRING_TAG_SUPPORT ? {}.toString : function toString() {
 
 /***/ }),
 
-/***/ "b0c0":
+/***/ "b301":
 /***/ (function(module, exports, __webpack_require__) {
 
-var DESCRIPTORS = __webpack_require__("83ab");
-var defineProperty = __webpack_require__("9bf2").f;
+"use strict";
 
-var FunctionPrototype = Function.prototype;
-var FunctionPrototypeToString = FunctionPrototype.toString;
-var nameRE = /^\s*function ([^ (]*)/;
-var NAME = 'name';
+var fails = __webpack_require__("d039");
 
-// Function instances `.name` property
-// https://tc39.github.io/ecma262/#sec-function-instances-name
-if (DESCRIPTORS && !(NAME in FunctionPrototype)) {
-  defineProperty(FunctionPrototype, NAME, {
-    configurable: true,
-    get: function () {
-      try {
-        return FunctionPrototypeToString.call(this).match(nameRE)[1];
-      } catch (error) {
-        return '';
-      }
-    }
+module.exports = function (METHOD_NAME, argument) {
+  var method = [][METHOD_NAME];
+  return !method || !fails(function () {
+    // eslint-disable-next-line no-useless-call,no-throw-literal
+    method.call(null, argument || function () { throw 1; }, 1);
   });
-}
+};
+
+
+/***/ }),
+
+/***/ "b39a":
+/***/ (function(module, exports, __webpack_require__) {
+
+var getBuiltIn = __webpack_require__("d066");
+
+module.exports = getBuiltIn('navigator', 'userAgent') || '';
 
 
 /***/ }),
@@ -3271,7 +2896,7 @@ var USE_SYMBOL_AS_UID = __webpack_require__("fdbf");
 
 var WellKnownSymbolsStore = shared('wks');
 var Symbol = global.Symbol;
-var createWellKnownSymbol = USE_SYMBOL_AS_UID ? Symbol : Symbol && Symbol.withoutSetter || uid;
+var createWellKnownSymbol = USE_SYMBOL_AS_UID ? Symbol : uid;
 
 module.exports = function (name) {
   if (!has(WellKnownSymbolsStore, name)) {
@@ -3307,7 +2932,7 @@ $({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES }, {
 /***/ "b727":
 /***/ (function(module, exports, __webpack_require__) {
 
-var bind = __webpack_require__("0366");
+var bind = __webpack_require__("f8c2");
 var IndexedObject = __webpack_require__("44ad");
 var toObject = __webpack_require__("7b0b");
 var toLength = __webpack_require__("50c4");
@@ -3380,6 +3005,16 @@ module.exports = {
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "c032":
+/***/ (function(module, exports, __webpack_require__) {
+
+var wellKnownSymbol = __webpack_require__("b622");
+
+exports.f = wellKnownSymbol;
+
 
 /***/ }),
 
@@ -3666,13 +3301,11 @@ module.exports = function (it, TAG, STATIC) {
 
 "use strict";
 
-// TODO: Remove from `core-js@4` since it's moved to entry points
-__webpack_require__("ac1f");
+var createNonEnumerableProperty = __webpack_require__("9112");
 var redefine = __webpack_require__("6eeb");
 var fails = __webpack_require__("d039");
 var wellKnownSymbol = __webpack_require__("b622");
 var regexpExec = __webpack_require__("9263");
-var createNonEnumerableProperty = __webpack_require__("9112");
 
 var SPECIES = wellKnownSymbol('species');
 
@@ -3688,21 +3321,6 @@ var REPLACE_SUPPORTS_NAMED_GROUPS = !fails(function () {
   };
   return ''.replace(re, '$<a>') !== '7';
 });
-
-// IE <= 11 replaces $0 with the whole match, as if it was $&
-// https://stackoverflow.com/questions/6024666/getting-ie-to-replace-a-regex-with-the-literal-string-0
-var REPLACE_KEEPS_$0 = (function () {
-  return 'a'.replace(/./, '$0') === '$0';
-})();
-
-var REPLACE = wellKnownSymbol('replace');
-// Safari <= 13.0.3(?) substitutes nth capture where n>m with an empty string
-var REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE = (function () {
-  if (/./[REPLACE]) {
-    return /./[REPLACE]('a', '$0') === '';
-  }
-  return false;
-})();
 
 // Chrome 51 has a buggy "split" implementation when RegExp#exec !== nativeExec
 // Weex JS has frozen built-in prototypes, so use try / catch wrapper
@@ -3751,11 +3369,7 @@ module.exports = function (KEY, length, exec, sham) {
   if (
     !DELEGATES_TO_SYMBOL ||
     !DELEGATES_TO_EXEC ||
-    (KEY === 'replace' && !(
-      REPLACE_SUPPORTS_NAMED_GROUPS &&
-      REPLACE_KEEPS_$0 &&
-      !REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE
-    )) ||
+    (KEY === 'replace' && !REPLACE_SUPPORTS_NAMED_GROUPS) ||
     (KEY === 'split' && !SPLIT_WORKS_WITH_OVERWRITTEN_EXEC)
   ) {
     var nativeRegExpMethod = /./[SYMBOL];
@@ -3770,9 +3384,6 @@ module.exports = function (KEY, length, exec, sham) {
         return { done: true, value: nativeMethod.call(str, regexp, arg2) };
       }
       return { done: false };
-    }, {
-      REPLACE_KEEPS_$0: REPLACE_KEEPS_$0,
-      REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE: REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE
     });
     var stringMethod = methods[0];
     var regexMethod = methods[1];
@@ -3786,9 +3397,8 @@ module.exports = function (KEY, length, exec, sham) {
       // 21.2.5.9 RegExp.prototype[@@search](string)
       : function (string) { return regexMethod.call(string, this); }
     );
+    if (sham) createNonEnumerableProperty(RegExp.prototype[SYMBOL], 'sham', true);
   }
-
-  if (sham) createNonEnumerableProperty(RegExp.prototype[SYMBOL], 'sham', true);
 };
 
 
@@ -3801,12 +3411,14 @@ module.exports = function (KEY, length, exec, sham) {
 
 var $ = __webpack_require__("23e7");
 var $map = __webpack_require__("b727").map;
+var fails = __webpack_require__("d039");
 var arrayMethodHasSpeciesSupport = __webpack_require__("1dde");
-var arrayMethodUsesToLength = __webpack_require__("ae40");
 
 var HAS_SPECIES_SUPPORT = arrayMethodHasSpeciesSupport('map');
 // FF49- issue
-var USES_TO_LENGTH = arrayMethodUsesToLength('map');
+var USES_TO_LENGTH = HAS_SPECIES_SUPPORT && !fails(function () {
+  [].map.call({ length: -1, 0: 1 }, function (it) { throw it; });
+});
 
 // `Array.prototype.map` method
 // https://tc39.github.io/ecma262/#sec-array.prototype.map
@@ -3835,7 +3447,7 @@ module.exports =
   check(typeof self == 'object' && self) ||
   check(typeof global == 'object' && global) ||
   // eslint-disable-next-line no-new-func
-  (function () { return this; })() || Function('return this')();
+  Function('return this')();
 
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__("c8ba")))
 
@@ -4023,17 +3635,6 @@ module.exports = !fails(function () {
 
 /***/ }),
 
-/***/ "e258":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DateRangePicker_vue_vue_type_style_index_1_id_0cfd7c52_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("a99d");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DateRangePicker_vue_vue_type_style_index_1_id_0cfd7c52_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DateRangePicker_vue_vue_type_style_index_1_id_0cfd7c52_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
-
-
-/***/ }),
-
 /***/ "e260":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4114,16 +3715,6 @@ $({ target: 'Object', stat: true, forced: FORCED, sham: !DESCRIPTORS }, {
     return nativeGetOwnPropertyDescriptor(toIndexedObject(it), key);
   }
 });
-
-
-/***/ }),
-
-/***/ "e538":
-/***/ (function(module, exports, __webpack_require__) {
-
-var wellKnownSymbol = __webpack_require__("b622");
-
-exports.f = wellKnownSymbol;
 
 
 /***/ }),
@@ -4213,6 +3804,49 @@ module.exports = TO_STRING_TAG_SUPPORT ? classofRaw : function (it) {
 
 /***/ }),
 
+/***/ "f6fd":
+/***/ (function(module, exports) {
+
+// document.currentScript polyfill by Adam Miller
+
+// MIT license
+
+(function(document){
+  var currentScript = "currentScript",
+      scripts = document.getElementsByTagName('script'); // Live NodeList collection
+
+  // If browser needs currentScript polyfill, add get currentScript() to the document object
+  if (!(currentScript in document)) {
+    Object.defineProperty(document, currentScript, {
+      get: function(){
+
+        // IE 6-10 supports script readyState
+        // IE 10+ support stack trace
+        try { throw new Error(); }
+        catch (err) {
+
+          // Find the second match for the "at" string to get file src url from stack.
+          // Specifically works with the format of stack traces in IE.
+          var i, res = ((/.*at [^\(]*\((.*):.+:.+\)$/ig).exec(err.stack) || [false])[1];
+
+          // For all scripts on the page, if src matches or if ready state is interactive, return the script tag
+          for(i in scripts){
+            if(scripts[i].src == res || scripts[i].readyState == "interactive"){
+              return scripts[i];
+            }
+          }
+
+          // If no match, return null
+          return null;
+        }
+      }
+    });
+  }
+})(document);
+
+
+/***/ }),
+
 /***/ "f772":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4228,43 +3862,72 @@ module.exports = function (key) {
 
 /***/ }),
 
+/***/ "f8c2":
+/***/ (function(module, exports, __webpack_require__) {
+
+var aFunction = __webpack_require__("1c0b");
+
+// optional / simple context binding
+module.exports = function (fn, that, length) {
+  aFunction(fn);
+  if (that === undefined) return fn;
+  switch (length) {
+    case 0: return function () {
+      return fn.call(that);
+    };
+    case 1: return function (a) {
+      return fn.call(that, a);
+    };
+    case 2: return function (a, b) {
+      return fn.call(that, a, b);
+    };
+    case 3: return function (a, b, c) {
+      return fn.call(that, a, b, c);
+    };
+  }
+  return function (/* ...args */) {
+    return fn.apply(that, arguments);
+  };
+};
+
+
+/***/ }),
+
 /***/ "fb15":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
 
 if (typeof window !== 'undefined') {
-  var currentScript = window.document.currentScript
   if (true) {
-    var getCurrentScript = __webpack_require__("8875")
-    currentScript = getCurrentScript()
-
-    // for backward compatibility, because previously we directly included the polyfill
-    if (!('currentScript' in document)) {
-      Object.defineProperty(document, 'currentScript', { get: getCurrentScript })
-    }
+    __webpack_require__("f6fd")
   }
 
-  var src = currentScript && currentScript.src.match(/(.+\/)[^/]+\.js(\?.*)?$/)
-  if (src) {
-    __webpack_require__.p = src[1] // eslint-disable-line
+  var setPublicPath_i
+  if ((setPublicPath_i = window.document.currentScript) && (setPublicPath_i = setPublicPath_i.src.match(/(.+\/)[^/]+\.js(\?.*)?$/))) {
+    __webpack_require__.p = setPublicPath_i[1] // eslint-disable-line
   }
 }
 
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"2b1104a2-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/DateRangePicker.vue?vue&type=template&id=0cfd7c52&scoped=true&
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"vue-daterange-picker",class:{ inline: _vm.opens === 'inline' }},[_c('div',{ref:"toggle",class:_vm.controlContainerClass,on:{"click":_vm.onClickPicker}},[_vm._t("input",[_c('i',{staticClass:"glyphicon glyphicon-calendar fa fa-calendar"}),_vm._v(" "),_c('span',[_vm._v(_vm._s(_vm.rangeText))]),_c('b',{staticClass:"caret"})],{"startDate":_vm.start,"endDate":_vm.end,"ranges":_vm.ranges})],2),_c('transition',{attrs:{"name":"slide-fade","mode":"out-in"}},[(_vm.open || _vm.opens === 'inline')?_c('div',{directives:[{name:"append-to-body",rawName:"v-append-to-body"}],ref:"dropdown",staticClass:"daterangepicker dropdown-menu ltr",class:_vm.pickerStyles},[_vm._t("header",null,{"rangeText":_vm.rangeText,"locale":_vm.locale,"clickCancel":_vm.clickCancel,"clickApply":_vm.clickedApply,"in_selection":_vm.in_selection,"autoApply":_vm.autoApply}),_c('div',{staticClass:"calendars row no-gutters"},[(_vm.showRanges)?_vm._t("ranges",[_c('calendar-ranges',{staticClass:"col-12 col-md-auto",attrs:{"always-show-calendars":_vm.alwaysShowCalendars,"locale-data":_vm.locale,"ranges":_vm.ranges,"selected":{ startDate: _vm.start, endDate: _vm.end }},on:{"clickRange":_vm.clickRange,"showCustomRange":function($event){_vm.showCustomRangeCalendars=true}}})],{"startDate":_vm.start,"endDate":_vm.end,"ranges":_vm.ranges,"clickRange":_vm.clickRange}):_vm._e(),(_vm.showCalendars)?_c('div',{staticClass:"calendars-container"},[_c('div',{staticClass:"drp-calendar col left",class:{single: _vm.singleDatePicker}},[(false)?undefined:_vm._e(),_c('div',{staticClass:"calendar-table"},[_c('calendar',{attrs:{"monthDate":_vm.monthDate,"locale-data":_vm.locale,"start":_vm.start,"end":_vm.end,"minDate":_vm.min,"maxDate":_vm.max,"show-dropdowns":_vm.showDropdowns,"date-format":_vm.dateFormatFn,"showWeekNumbers":_vm.showWeekNumbers},on:{"change-month":_vm.changeLeftMonth,"dateClick":_vm.dateClick,"hoverDate":_vm.hoverDate}})],1),(_vm.timePicker && _vm.start)?_c('calendar-time',{attrs:{"miniute-increment":_vm.timePickerIncrement,"hour24":_vm.timePicker24Hour,"second-picker":_vm.timePickerSeconds,"label":_vm.timePickerLabels ? _vm.timePickerLabels[0] : null,"current-time":_vm.start,"readonly":_vm.readonly},on:{"update":_vm.onUpdateStartTime}}):_vm._e()],1),(!_vm.singleDatePicker)?_c('div',{staticClass:"drp-calendar col right"},[(false)?undefined:_vm._e(),_c('div',{staticClass:"calendar-table"},[_c('calendar',{attrs:{"monthDate":_vm.nextMonthDate,"locale-data":_vm.locale,"start":_vm.start,"end":_vm.end,"minDate":_vm.min,"maxDate":_vm.max,"show-dropdowns":_vm.showDropdowns,"date-format":_vm.dateFormatFn,"showWeekNumbers":_vm.showWeekNumbers},on:{"change-month":_vm.changeRightMonth,"dateClick":_vm.dateClick,"hoverDate":_vm.hoverDate}})],1),(_vm.timePicker && _vm.end)?_c('calendar-time',{attrs:{"miniute-increment":_vm.timePickerIncrement,"hour24":_vm.timePicker24Hour,"second-picker":_vm.timePickerSeconds,"label":_vm.timePickerLabels ? _vm.timePickerLabels[1] : null,"current-time":_vm.end,"readonly":_vm.readonly},on:{"update":_vm.onUpdateEndTime}}):_vm._e()],1):_vm._e()]):_vm._e()],2),_vm._t("footer",[(!_vm.autoApply)?_c('div',{staticClass:"drp-buttons"},[(_vm.showCalendars)?_c('span',{staticClass:"drp-selected"},[_vm._v(_vm._s(_vm.rangeText))]):_vm._e(),(!_vm.readonly)?_c('button',{staticClass:"cancelBtn btn btn-sm btn-secondary",attrs:{"type":"button"},on:{"click":_vm.clickCancel}},[_vm._v(_vm._s(_vm.locale.cancelLabel)+" ")]):_vm._e(),(!_vm.readonly)?_c('button',{staticClass:"applyBtn btn btn-sm btn-success",attrs:{"disabled":_vm.in_selection,"type":"button"},on:{"click":_vm.clickedApply}},[_vm._v(_vm._s(_vm.locale.applyLabel)+" ")]):_vm._e()]):_vm._e()],{"rangeText":_vm.rangeText,"locale":_vm.locale,"clickCancel":_vm.clickCancel,"clickApply":_vm.clickedApply,"in_selection":_vm.in_selection,"autoApply":_vm.autoApply})],2):_vm._e()])],1)}
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"410fe2a4-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/DateRangePicker.vue?vue&type=template&id=3ce4db26&scoped=true&
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"vue-daterange-picker",class:{ inline: _vm.opens === 'inline' }},[_c('div',{ref:"toggle",class:_vm.controlContainerClass,on:{"click":_vm.onClickPicker}},[_vm._t("input",[_c('i',{staticClass:"glyphicon glyphicon-calendar fa fa-calendar"}),_vm._v(" "),_c('span',[_vm._v(_vm._s(_vm.rangeText))]),_c('b',{staticClass:"caret"})],{"startDate":_vm.start,"endDate":_vm.end,"ranges":_vm.ranges})],2),_c('transition',{attrs:{"name":"slide-fade","mode":"out-in"}},[(_vm.open || _vm.opens === 'inline')?_c('div',{directives:[{name:"append-to-body",rawName:"v-append-to-body"}],ref:"dropdown",staticClass:"daterangepicker dropdown-menu ltr",class:_vm.pickerStyles},[_vm._t("header",null,{"rangeText":_vm.rangeText,"locale":_vm.locale,"clickCancel":_vm.clickCancel,"clickApply":_vm.clickedApply,"in_selection":_vm.in_selection,"autoApply":_vm.autoApply}),_c('div',{staticClass:"calendars row no-gutters"},[(_vm.showRanges)?_vm._t("ranges",[_c('calendar-ranges',{staticClass:"col-12 col-md-auto",attrs:{"always-show-calendars":_vm.alwaysShowCalendars,"locale-data":_vm.locale,"ranges":_vm.ranges,"selected":{ startDate: _vm.start, endDate: _vm.end }},on:{"clickRange":_vm.clickRange,"showCustomRange":function($event){_vm.showCustomRangeCalendars = true}}})],{"startDate":_vm.start,"endDate":_vm.end,"ranges":_vm.ranges,"clickRange":_vm.clickRange}):_vm._e(),(_vm.showCalendars)?_c('div',{staticClass:"calendars-container"},[_c('div',{staticClass:"drp-calendar col left",class:{ single: _vm.singleDatePicker }},[(false)?undefined:_vm._e(),_c('div',{staticClass:"calendar-table"},[_c('calendar',{attrs:{"monthDate":_vm.monthDate,"locale-data":_vm.locale,"start":_vm.start,"end":_vm.end,"minDate":_vm.min,"maxDate":_vm.max,"show-dropdowns":_vm.showDropdowns,"date-format":_vm.dateFormatFn,"showWeekNumbers":_vm.showWeekNumbers,"captionsOfDate":_vm.captionsOfDate},on:{"change-month":_vm.changeLeftMonth,"dateClick":_vm.dateClick,"hoverDate":_vm.hoverDate}})],1),(_vm.timePicker && _vm.start)?_c('calendar-time',{attrs:{"miniute-increment":_vm.timePickerIncrement,"hour24":_vm.timePicker24Hour,"second-picker":_vm.timePickerSeconds,"label":_vm.timePickerLabels ? _vm.timePickerLabels[0] : null,"current-time":_vm.start,"readonly":_vm.readonly},on:{"update":_vm.onUpdateStartTime}}):_vm._e()],1),(!_vm.singleDatePicker)?_c('div',{staticClass:"drp-calendar col right"},[(false)?undefined:_vm._e(),_c('div',{staticClass:"calendar-table"},[_c('calendar',{attrs:{"monthDate":_vm.nextMonthDate,"locale-data":_vm.locale,"start":_vm.start,"end":_vm.end,"minDate":_vm.min,"maxDate":_vm.max,"show-dropdowns":_vm.showDropdowns,"date-format":_vm.dateFormatFn,"showWeekNumbers":_vm.showWeekNumbers},on:{"change-month":_vm.changeRightMonth,"dateClick":_vm.dateClick,"hoverDate":_vm.hoverDate}})],1),(_vm.timePicker && _vm.end)?_c('calendar-time',{attrs:{"miniute-increment":_vm.timePickerIncrement,"hour24":_vm.timePicker24Hour,"second-picker":_vm.timePickerSeconds,"label":_vm.timePickerLabels ? _vm.timePickerLabels[1] : null,"current-time":_vm.end,"readonly":_vm.readonly},on:{"update":_vm.onUpdateEndTime}}):_vm._e()],1):_vm._e()]):_vm._e()],2),_vm._t("footer",[(!_vm.autoApply)?_c('div',{staticClass:"drp-buttons"},[(_vm.showCalendars)?_c('span',{staticClass:"drp-selected"},[_vm._v(_vm._s(_vm.rangeText))]):_vm._e(),(!_vm.readonly)?_c('button',{staticClass:"cancelBtn btn btn-sm btn-secondary",attrs:{"type":"button"},on:{"click":_vm.clickCancel}},[_vm._v(" "+_vm._s(_vm.locale.cancelLabel)+" ")]):_vm._e(),(!_vm.readonly)?_c('button',{staticClass:"applyBtn btn btn-sm btn-success",attrs:{"disabled":_vm.in_selection,"type":"button"},on:{"click":_vm.clickedApply}},[_vm._v(" "+_vm._s(_vm.locale.applyLabel)+" ")]):_vm._e()]):_vm._e()],{"rangeText":_vm.rangeText,"locale":_vm.locale,"clickCancel":_vm.clickCancel,"clickApply":_vm.clickedApply,"in_selection":_vm.in_selection,"autoApply":_vm.autoApply})],2):_vm._e()])],1)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/DateRangePicker.vue?vue&type=template&id=0cfd7c52&scoped=true&
+// CONCATENATED MODULE: ./src/components/DateRangePicker.vue?vue&type=template&id=3ce4db26&scoped=true&
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.symbol.js
+var es_symbol = __webpack_require__("a4d3");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.filter.js
+var es_array_filter = __webpack_require__("4de4");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.find.js
 var es_array_find = __webpack_require__("7db0");
@@ -4272,33 +3935,31 @@ var es_array_find = __webpack_require__("7db0");
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.constructor.js
 var es_number_constructor = __webpack_require__("a9e3");
 
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.get-own-property-descriptor.js
+var es_object_get_own_property_descriptor = __webpack_require__("e439");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.get-own-property-descriptors.js
+var es_object_get_own_property_descriptors = __webpack_require__("dbb4");
+
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.keys.js
 var es_object_keys = __webpack_require__("b64b");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom-collections.for-each.js
+var web_dom_collections_for_each = __webpack_require__("159b");
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/typeof.js
 var esm_typeof = __webpack_require__("53ca");
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
-var defineProperty = __webpack_require__("ade3");
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) {
-    arr2[i] = arr[i];
-  }
-
-  return arr2;
-}
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
-
 function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-}
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.symbol.js
-var es_symbol = __webpack_require__("a4d3");
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {
+      arr2[i] = arr[i];
+    }
 
+    return arr2;
+  }
+}
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.symbol.description.js
 var es_symbol_description = __webpack_require__("e01a");
 
@@ -4313,6 +3974,9 @@ var es_array_iterator = __webpack_require__("e260");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.to-string.js
 var es_object_to_string = __webpack_require__("d3b7");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.regexp.to-string.js
+var es_regexp_to_string = __webpack_require__("25f0");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.iterator.js
 var es_string_iterator = __webpack_require__("3ca3");
@@ -4329,48 +3993,23 @@ var web_dom_collections_iterator = __webpack_require__("ddb0");
 
 
 
+
 function _iterableToArray(iter) {
-  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
-}
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.slice.js
-var es_array_slice = __webpack_require__("fb6a");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.function.name.js
-var es_function_name = __webpack_require__("b0c0");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.regexp.to-string.js
-var es_regexp_to_string = __webpack_require__("25f0");
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-
-
-
-
-
-
-
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
 }
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
 function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+  throw new TypeError("Invalid attempt to spread non-iterable instance");
 }
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
 
 
 
-
 function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
+  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
 }
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread2.js
-var objectSpread2 = __webpack_require__("5530");
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
+var defineProperty = __webpack_require__("ade3");
 
 // CONCATENATED MODULE: ./src/components/util.js
 var getDateUtil = function getDateUtil() {
@@ -4394,15 +4033,12 @@ var getDateUtil = function getDateUtil() {
     this.$dateUtil = getDateUtil('native');
   }
 });
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"2b1104a2-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Calendar.vue?vue&type=template&id=6ca52014&scoped=true&
-var Calendarvue_type_template_id_6ca52014_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('table',{staticClass:"table-condensed"},[_c('thead',[_c('tr',[_c('th',{staticClass:"prev available",attrs:{"tabindex":"0"},on:{"click":_vm.prevMonthClick}},[_c('span')]),(_vm.showDropdowns)?_c('th',{staticClass:"month",attrs:{"colspan":_vm.showWeekNumbers ? 6 : 5}},[_c('div',{staticClass:"row mx-1"},[_c('select',{directives:[{name:"model",rawName:"v-model",value:(_vm.month),expression:"month"}],staticClass:"monthselect col",on:{"change":function($event){var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return val}); _vm.month=$event.target.multiple ? $$selectedVal : $$selectedVal[0]}}},_vm._l((_vm.months),function(m){return _c('option',{key:m.value,domProps:{"value":m.value + 1}},[_vm._v(_vm._s(m.label))])}),0),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.year),expression:"year"}],ref:"yearSelect",staticClass:"yearselect col",attrs:{"type":"number"},domProps:{"value":(_vm.year)},on:{"blur":_vm.checkYear,"input":function($event){if($event.target.composing){ return; }_vm.year=$event.target.value}}})])]):_c('th',{staticClass:"month",attrs:{"colspan":_vm.showWeekNumbers ? 6 : 5}},[_vm._v(_vm._s(_vm.monthName)+" "+_vm._s(_vm.year))]),_c('th',{staticClass:"next available",attrs:{"tabindex":"0"},on:{"click":_vm.nextMonthClick}},[_c('span')])])]),_c('tbody',[_c('tr',[(_vm.showWeekNumbers)?_c('th',{staticClass:"week"},[_vm._v(_vm._s(_vm.locale.weekLabel))]):_vm._e(),_vm._l((_vm.locale.daysOfWeek),function(weekDay){return _c('th',{key:weekDay},[_vm._v(_vm._s(weekDay))])})],2),_vm._l((_vm.calendar),function(dateRow,index){return _c('tr',{key:index},[(_vm.showWeekNumbers && (index%7 || index===0))?_c('td',{staticClass:"week"},[_vm._v(" "+_vm._s(_vm.$dateUtil.weekNumber(dateRow[0]))+" ")]):_vm._e(),_vm._l((dateRow),function(date,idx){return _vm._t("date-slot",[_c('td',{key:idx,class:_vm.dayClass(date),on:{"click":function($event){return _vm.$emit('dateClick', date)},"mouseover":function($event){return _vm.$emit('hoverDate', date)}}},[_vm._v(" "+_vm._s(date.getDate())+" ")])])})],2)})],2)])}
-var Calendarvue_type_template_id_6ca52014_scoped_true_staticRenderFns = []
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"410fe2a4-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Calendar.vue?vue&type=template&id=1ee42226&scoped=true&
+var Calendarvue_type_template_id_1ee42226_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('table',{staticClass:"table-condensed"},[_c('thead',[_c('tr',[_c('th',{staticClass:"prev available",attrs:{"tabindex":"0"},on:{"click":_vm.prevMonthClick}},[_c('span')]),(_vm.showDropdowns)?_c('th',{staticClass:"month",attrs:{"colspan":_vm.showWeekNumbers ? 6 : 5}},[_c('div',{staticClass:"row mx-1"},[_c('select',{directives:[{name:"model",rawName:"v-model",value:(_vm.month),expression:"month"}],staticClass:"monthselect col",on:{"change":function($event){var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return val}); _vm.month=$event.target.multiple ? $$selectedVal : $$selectedVal[0]}}},_vm._l((_vm.months),function(m){return _c('option',{key:m.value,domProps:{"value":m.value + 1}},[_vm._v(_vm._s(m.label))])}),0),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.year),expression:"year"}],ref:"yearSelect",staticClass:"yearselect col",attrs:{"type":"number"},domProps:{"value":(_vm.year)},on:{"blur":_vm.checkYear,"input":function($event){if($event.target.composing){ return; }_vm.year=$event.target.value}}})])]):_c('th',{staticClass:"month",attrs:{"colspan":_vm.showWeekNumbers ? 6 : 5}},[_vm._v(" "+_vm._s(_vm.monthName)+" "+_vm._s(_vm.year)+" ")]),_c('th',{staticClass:"next available",attrs:{"tabindex":"0"},on:{"click":_vm.nextMonthClick}},[_c('span')])])]),_c('tbody',[_c('tr',[(_vm.showWeekNumbers)?_c('th',{staticClass:"week"},[_vm._v(_vm._s(_vm.locale.weekLabel))]):_vm._e(),_vm._l((_vm.locale.daysOfWeek),function(weekDay){return _c('th',{key:weekDay},[_vm._v(" "+_vm._s(weekDay)+" ")])})],2),_vm._l((_vm.calendar),function(dateRow,index){return _c('tr',{key:index},[(_vm.showWeekNumbers && (index % 7 || index === 0))?_c('td',{staticClass:"week"},[_vm._v(" "+_vm._s(_vm.$dateUtil.weekNumber(dateRow[0]))+" ")]):_vm._e(),_vm._l((dateRow),function(date,idx){return _vm._t("date-slot",[_c('td',{key:idx,staticClass:"td-date",class:_vm.dayClass(date),on:{"click":function($event){return _vm.$emit('dateClick', date)},"mouseover":function($event){return _vm.$emit('hoverDate', date)}}},[_c('strong',[_vm._v(_vm._s(date.getDate()))]),_c('small',{staticStyle:{"display":"block","line-height":"12px"}},[_vm._v(_vm._s(_vm.captionsOfDate && _vm.captionsOfDate[date.toISOString().split("T")[0]] ? _vm.captionsOfDate[date.toISOString().split("T")[0]] : ""))])])])})],2)})],2)])}
+var Calendarvue_type_template_id_1ee42226_scoped_true_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/Calendar.vue?vue&type=template&id=6ca52014&scoped=true&
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.filter.js
-var es_array_filter = __webpack_require__("4de4");
+// CONCATENATED MODULE: ./src/components/Calendar.vue?vue&type=template&id=1ee42226&scoped=true&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.map.js
 var es_array_map = __webpack_require__("d81d");
@@ -4459,10 +4095,29 @@ var es_array_map = __webpack_require__("d81d");
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ var Calendarvue_type_script_lang_js_ = ({
   mixins: [dateUtilMixin],
-  name: 'calendar',
+  name: "calendar",
   props: {
     monthDate: Date,
     localeData: Object,
@@ -4481,9 +4136,15 @@ var es_array_map = __webpack_require__("d81d");
     dateFormat: {
       type: Function,
       default: null
+    },
+    captionsOfDate: {
+      type: Object,
+      default: null
     }
   },
   data: function data() {
+    var date = new Date();
+    console.log(date.getUTCDate());
     var currentMonthDate = this.monthDate || this.start || new Date();
     return {
       currentMonthDate: currentMonthDate,
@@ -4503,7 +4164,7 @@ var es_array_map = __webpack_require__("d81d");
       this.currentMonthDate = this.$dateUtil.validateDateRange(date, this.minDate, this.maxDate); // console.info(date, this.currentMonthDate)
 
       if (emit && year_month !== this.$dateUtil.yearMonth(this.currentMonthDate)) {
-        this.$emit('change-month', {
+        this.$emit("change-month", {
           month: this.currentMonthDate.getMonth() + 1,
           year: this.currentMonthDate.getFullYear()
         });
@@ -4523,9 +4184,9 @@ var es_array_map = __webpack_require__("d81d");
         weekend: date.getDay() === 6 || date.getDay() === 0,
         today: dt.setHours(0, 0, 0, 0) == new Date().setHours(0, 0, 0, 0),
         active: dt.setHours(0, 0, 0, 0) == new Date(this.start).setHours(0, 0, 0, 0) || dt.setHours(0, 0, 0, 0) == new Date(this.end).setHours(0, 0, 0, 0),
-        'in-range': dt >= start && dt <= end,
-        'start-date': dt.getTime() === start.getTime(),
-        'end-date': dt.getTime() === end.getTime(),
+        "in-range": dt >= start && dt <= end,
+        "start-date": dt.getTime() === start.getTime(),
+        "end-date": dt.getTime() === end.getTime(),
         disabled: this.minDate && dt.getTime() < this.minDate.getTime() || this.maxDate && dt.getTime() > this.maxDate.getTime()
       };
       return this.dateFormat ? this.dateFormat(classes, date) : classes;
@@ -4554,7 +4215,7 @@ var es_array_map = __webpack_require__("d81d");
         var newDate = this.$dateUtil.validateDateRange(new Date(value, this.month, 1), this.minDate, this.maxDate);
 
         if (this.$dateUtil.isValidDate(newDate)) {
-          this.$emit('change-month', {
+          this.$emit("change-month", {
             month: newDate.getMonth(),
             year: newDate.getFullYear()
           });
@@ -4567,7 +4228,7 @@ var es_array_map = __webpack_require__("d81d");
       },
       set: function set(value) {
         var newDate = this.$dateUtil.validateDateRange(new Date(this.year, value - 1, 1), this.minDate, this.maxDate);
-        this.$emit('change-month', {
+        this.$emit("change-month", {
           month: newDate.getMonth() + 1,
           year: newDate.getFullYear()
         });
@@ -4659,8 +4320,8 @@ var es_array_map = __webpack_require__("d81d");
 });
 // CONCATENATED MODULE: ./src/components/Calendar.vue?vue&type=script&lang=js&
  /* harmony default export */ var components_Calendarvue_type_script_lang_js_ = (Calendarvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/Calendar.vue?vue&type=style&index=0&id=6ca52014&scoped=true&lang=scss&
-var Calendarvue_type_style_index_0_id_6ca52014_scoped_true_lang_scss_ = __webpack_require__("a678");
+// EXTERNAL MODULE: ./src/components/Calendar.vue?vue&type=style&index=0&id=1ee42226&scoped=true&lang=scss&
+var Calendarvue_type_style_index_0_id_1ee42226_scoped_true_lang_scss_ = __webpack_require__("4241");
 
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
@@ -4727,12 +4388,7 @@ function normalizeComponent (
     options._ssrRegister = hook
   } else if (injectStyles) {
     hook = shadowMode
-      ? function () {
-        injectStyles.call(
-          this,
-          (options.functional ? this.parent : this).$root.$options.shadowRoot
-        )
-      }
+      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
       : injectStyles
   }
 
@@ -4741,7 +4397,7 @@ function normalizeComponent (
       // for template-only hot-reload because in that case the render fn doesn't
       // go through the normalizer
       options._injectStyles = hook
-      // register for functional component in vue file
+      // register for functioal component in vue file
       var originalRender = options.render
       options.render = function renderWithStyleInjection (h, context) {
         hook.call(context)
@@ -4773,17 +4429,17 @@ function normalizeComponent (
 
 var component = normalizeComponent(
   components_Calendarvue_type_script_lang_js_,
-  Calendarvue_type_template_id_6ca52014_scoped_true_render,
-  Calendarvue_type_template_id_6ca52014_scoped_true_staticRenderFns,
+  Calendarvue_type_template_id_1ee42226_scoped_true_render,
+  Calendarvue_type_template_id_1ee42226_scoped_true_staticRenderFns,
   false,
   null,
-  "6ca52014",
+  "1ee42226",
   null
   
 )
 
 /* harmony default export */ var Calendar = (component.exports);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"2b1104a2-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/CalendarTime.vue?vue&type=template&id=42ef694c&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"410fe2a4-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/CalendarTime.vue?vue&type=template&id=42ef694c&
 var CalendarTimevue_type_template_id_42ef694c_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[(_vm.label)?_c('div',{staticClass:"calendar-time-label"},[_vm._v(_vm._s(_vm.label))]):_vm._e(),_c('div',{staticClass:"calendar-time"},[_c('select',{directives:[{name:"model",rawName:"v-model",value:(_vm.hour),expression:"hour"}],staticClass:"hourselect form-control mr-1",attrs:{"disabled":_vm.readonly},on:{"change":function($event){var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return val}); _vm.hour=$event.target.multiple ? $$selectedVal : $$selectedVal[0]}}},_vm._l((_vm.hours),function(h){return _c('option',{key:h,domProps:{"value":h}},[_vm._v(_vm._s(_vm._f("formatNumber")(h)))])}),0),_vm._v(" :"),_c('select',{directives:[{name:"model",rawName:"v-model",value:(_vm.minute),expression:"minute"}],staticClass:"minuteselect form-control ml-1",attrs:{"disabled":_vm.readonly},on:{"change":function($event){var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return val}); _vm.minute=$event.target.multiple ? $$selectedVal : $$selectedVal[0]}}},_vm._l((_vm.minutes),function(m){return _c('option',{key:m,domProps:{"value":m}},[_vm._v(_vm._s(_vm._f("formatNumber")(m)))])}),0),(_vm.secondPicker)?[_vm._v(" :"),_c('select',{directives:[{name:"model",rawName:"v-model",value:(_vm.second),expression:"second"}],staticClass:"secondselect form-control ml-1",attrs:{"disabled":_vm.readonly},on:{"change":function($event){var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return val}); _vm.second=$event.target.multiple ? $$selectedVal : $$selectedVal[0]}}},_vm._l((60),function(s){return _c('option',{key:s-1,domProps:{"value":s-1}},[_vm._v(_vm._s(_vm._f("formatNumber")(s-1)))])}),0)]:_vm._e(),(!_vm.hour24)?_c('select',{directives:[{name:"model",rawName:"v-model",value:(_vm.ampm),expression:"ampm"}],staticClass:"ampmselect",attrs:{"disabled":_vm.readonly},on:{"change":function($event){var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return val}); _vm.ampm=$event.target.multiple ? $$selectedVal : $$selectedVal[0]}}},[_c('option',{attrs:{"value":"AM"}},[_vm._v("AM")]),_c('option',{attrs:{"value":"PM"}},[_vm._v("PM")])]):_vm._e()],2)])}
 var CalendarTimevue_type_template_id_42ef694c_staticRenderFns = []
 
@@ -4946,7 +4602,7 @@ var CalendarTime_component = normalizeComponent(
 )
 
 /* harmony default export */ var CalendarTime = (CalendarTime_component.exports);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"2b1104a2-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/CalendarRanges.vue?vue&type=template&id=74cafa3d&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"410fe2a4-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/CalendarRanges.vue?vue&type=template&id=74cafa3d&
 var CalendarRangesvue_type_template_id_74cafa3d_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"ranges"},[(_vm.ranges)?_c('ul',[_vm._l((_vm.listedRanges),function(range){return _c('li',{key:range.label,class:_vm.range_class(range),attrs:{"data-range-key":range.label,"tabindex":"0"},on:{"click":function($event){return _vm.clickRange(range.value)}}},[_vm._v(_vm._s(range.label)+" ")])}),(_vm.showCustomRangeLabel)?_c('li',{class:{ active: _vm.customRangeActive || !_vm.selectedRange },attrs:{"tabindex":"0"},on:{"click":_vm.clickCustomRange}},[_vm._v(" "+_vm._s(_vm.localeData.customRangeLabel)+" ")]):_vm._e()],2):_vm._e()])}
 var CalendarRangesvue_type_template_id_74cafa3d_staticRenderFns = []
 
@@ -5101,6 +4757,30 @@ var CalendarRanges_component = normalizeComponent(
 
 
 
+
+
+
+
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -5299,8 +4979,8 @@ var CalendarRanges_component = normalizeComponent(
     appendToBody: appendToBody
   },
   model: {
-    prop: 'dateRange',
-    event: 'update'
+    prop: "dateRange",
+    event: "update"
   },
   props: {
     /**
@@ -5451,11 +5131,11 @@ var CalendarRanges_component = normalizeComponent(
         var thisMonthStart = new Date(today.getFullYear(), today.getMonth(), 1);
         var thisMonthEnd = new Date(today.getFullYear(), today.getMonth() + 1, 0);
         return {
-          'Today': [today, today],
-          'Yesterday': [yesterday, yesterday],
-          'This month': [thisMonthStart, thisMonthEnd],
-          'This year': [new Date(today.getFullYear(), 0, 1), new Date(today.getFullYear(), 11, 31)],
-          'Last month': [new Date(today.getFullYear(), today.getMonth() - 1, 1), new Date(today.getFullYear(), today.getMonth(), 0)]
+          Today: [today, today],
+          Yesterday: [yesterday, yesterday],
+          "This month": [thisMonthStart, thisMonthEnd],
+          "This year": [new Date(today.getFullYear(), 0, 1), new Date(today.getFullYear(), 11, 31)],
+          "Last month": [new Date(today.getFullYear(), today.getMonth() - 1, 1), new Date(today.getFullYear(), today.getMonth(), 0)]
         };
       }
     },
@@ -5465,15 +5145,15 @@ var CalendarRanges_component = normalizeComponent(
      */
     opens: {
       type: String,
-      default: 'center'
+      default: "center"
     },
 
     /**
-     function(classes, date) - special prop type function which accepts 2 params:
-     "classes" - the classes that the component's logic has defined,
-     "date" - tha date currently processed.
-     You should return Vue class object which should be applied to the date rendered.
-     */
+       function(classes, date) - special prop type function which accepts 2 params:
+       "classes" - the classes that the component's logic has defined,
+       "date" - tha date currently processed.
+       You should return Vue class object which should be applied to the date rendered.
+       */
     dateFormat: Function,
 
     /**
@@ -5498,7 +5178,7 @@ var CalendarRanges_component = normalizeComponent(
      */
     controlContainerClass: {
       type: [Object, String],
-      default: 'form-control reportrange-text'
+      default: "form-control reportrange-text"
     },
 
     /**
@@ -5541,18 +5221,18 @@ var CalendarRanges_component = normalizeComponent(
             right = _ref.right;
 
         // which way the picker opens - "center", "left" or "right"
-        if (component.opens === 'center') {
+        if (component.opens === "center") {
           // console.log('center open', left, width)
-          dropdownList.style.left = left + width / 2 + 'px';
-        } else if (component.opens === 'left') {
+          dropdownList.style.left = left + width / 2 + "px";
+        } else if (component.opens === "left") {
           // console.log('left open', right, width)
-          dropdownList.style.right = window.innerWidth - right + 'px';
-        } else if (component.opens === 'right') {
+          dropdownList.style.right = window.innerWidth - right + "px";
+        } else if (component.opens === "right") {
           // console.log('right open')
-          dropdownList.style.left = left + 'px';
+          dropdownList.style.left = left + "px";
         }
 
-        dropdownList.style.top = top + 'px'; // dropdownList.style.width = width + 'px'
+        dropdownList.style.top = top + "px"; // dropdownList.style.width = width + 'px'
       }
     },
 
@@ -5569,13 +5249,21 @@ var CalendarRanges_component = normalizeComponent(
      */
     readonly: {
       type: Boolean
+    },
+
+    /**
+     * The sub text under date
+     */
+    captionsOfDate: {
+      type: Object,
+      default: null
     }
   },
   data: function data() {
     //copy locale data object
     var util = getDateUtil();
     var data = {
-      locale: util.localeData(Object(objectSpread2["a" /* default */])({}, this.localeData))
+      locale: util.localeData(_objectSpread({}, this.localeData))
     };
     var startDate = this.dateRange.startDate || null;
     var endDate = this.dateRange.endDate || null;
@@ -5584,7 +5272,7 @@ var CalendarRanges_component = normalizeComponent(
     data.nextMonthDate = util.nextMonth(data.monthDate);
     data.start = startDate ? new Date(startDate) : null;
 
-    if (this.singleDatePicker && this.singleDatePicker !== 'range') {
+    if (this.singleDatePicker && this.singleDatePicker !== "range") {
       // ignore endDate for singleDatePicker
       data.end = data.start;
     } else {
@@ -5619,7 +5307,7 @@ var CalendarRanges_component = normalizeComponent(
       start.setHours(0, 0, 0, 0);
       var end = new Date(this.end);
       end.setHours(0, 0, 0, 0);
-      classes['in-range'] = dt >= start && dt <= end;
+      classes["in-range"] = dt >= start && dt <= end;
       return this.dateFormat ? this.dateFormat(classes, date) : classes;
     },
     changeLeftMonth: function changeLeftMonth(value) {
@@ -5629,7 +5317,7 @@ var CalendarRanges_component = normalizeComponent(
       if (this.linkedCalendars || this.$dateUtil.yearMonth(this.monthDate) >= this.$dateUtil.yearMonth(this.nextMonthDate)) {
         this.nextMonthDate = this.$dateUtil.validateDateRange(this.$dateUtil.nextMonth(newDate), this.minDate, this.maxDate);
 
-        if ((!this.singleDatePicker || this.singleDatePicker === 'range') && this.$dateUtil.yearMonth(this.monthDate) === this.$dateUtil.yearMonth(this.nextMonthDate)) {
+        if ((!this.singleDatePicker || this.singleDatePicker === "range") && this.$dateUtil.yearMonth(this.monthDate) === this.$dateUtil.yearMonth(this.nextMonthDate)) {
           this.monthDate = this.$dateUtil.validateDateRange(this.$dateUtil.prevMonth(this.monthDate), this.minDate, this.maxDate);
         }
       }
@@ -5641,7 +5329,7 @@ var CalendarRanges_component = normalizeComponent(
        */
 
 
-      this.$emit('change-month', this.monthDate, 0);
+      this.$emit("change-month", this.monthDate, 0);
     },
     changeRightMonth: function changeRightMonth(value) {
       var newDate = new Date(value.year, value.month - 1, 1);
@@ -5655,7 +5343,7 @@ var CalendarRanges_component = normalizeComponent(
         }
       }
 
-      this.$emit('change-month', this.monthDate, 1);
+      this.$emit("change-month", this.monthDate, 1);
     },
     normalizeDatetime: function normalizeDatetime(value, oldValue) {
       var newDate = new Date(value);
@@ -5689,7 +5377,7 @@ var CalendarRanges_component = normalizeComponent(
         this.start = this.normalizeDatetime(value, this.start);
         this.end = this.normalizeDatetime(value, this.end);
 
-        if (!this.singleDatePicker || this.singleDatePicker === 'range') {
+        if (!this.singleDatePicker || this.singleDatePicker === "range") {
           this.in_selection = true;
         } else {
           this.onSelect();
@@ -5706,7 +5394,7 @@ var CalendarRanges_component = normalizeComponent(
        * @param {Date} value the date that is being hovered
        */
 
-      this.$emit('hoverDate', value);
+      this.$emit("hoverDate", value);
     },
     onClickPicker: function onClickPicker() {
       if (!this.disabled) {
@@ -5714,7 +5402,7 @@ var CalendarRanges_component = normalizeComponent(
       }
     },
     togglePicker: function togglePicker(value, event) {
-      if (typeof value === 'boolean') {
+      if (typeof value === "boolean") {
         this.open = value;
       } else {
         this.open = !this.open;
@@ -5726,7 +5414,7 @@ var CalendarRanges_component = normalizeComponent(
          * @param {boolean} open - the current state of the picker
          * @param {Function} togglePicker - function (show, event) which can be used to control the picker. where "show" is the new state and "event" is boolean indicating whether a new event should be raised
          */
-        this.$emit('toggle', this.open, this.togglePicker);
+        this.$emit("toggle", this.open, this.togglePicker);
     },
     clickedApply: function clickedApply() {
       // this.open = false
@@ -5736,9 +5424,9 @@ var CalendarRanges_component = normalizeComponent(
        * @param {json} value - json object containing the dates: {startDate, endDate}
        */
 
-      this.$emit('update', {
+      this.$emit("update", {
         startDate: this.start,
-        endDate: this.singleDatePicker && this.singleDatePicker !== 'range' ? this.start : this.end
+        endDate: this.singleDatePicker && this.singleDatePicker !== "range" ? this.start : this.end
       });
     },
     clickCancel: function clickCancel() {
@@ -5757,7 +5445,7 @@ var CalendarRanges_component = normalizeComponent(
        * Emits when the user selects a range from the picker.
        * @param {json} value - json object containing the dates: {startDate, endDate}
        */
-      this.$emit('select', {
+      this.$emit("select", {
         startDate: this.start,
         endDate: this.end
       });
@@ -5791,15 +5479,15 @@ var CalendarRanges_component = normalizeComponent(
       start.setMinutes(value.minutes);
       start.setSeconds(value.seconds);
       this.start = this.$dateUtil.validateDateRange(start, this.minDate, this.maxDate);
-      this.$emit('select', {
+      this.$emit("select", {
         startDate: this.start,
         endDate: this.end
       }); // if autoapply is ON we should update the value on time selection change
 
       if (this.autoApply) {
-        this.$emit('update', {
+        this.$emit("update", {
           startDate: this.start,
-          endDate: this.singleDatePicker && this.singleDatePicker !== 'range' ? this.start : this.end
+          endDate: this.singleDatePicker && this.singleDatePicker !== "range" ? this.start : this.end
         });
       }
     },
@@ -5809,13 +5497,13 @@ var CalendarRanges_component = normalizeComponent(
       end.setMinutes(value.minutes);
       end.setSeconds(value.seconds);
       this.end = this.$dateUtil.validateDateRange(end, this.minDate, this.maxDate);
-      this.$emit('select', {
+      this.$emit("select", {
         startDate: this.start,
         endDate: this.end
       }); // if autoapply is ON we should update the value on time selection change
 
       if (this.autoApply) {
-        this.$emit('update', {
+        this.$emit("update", {
           startDate: this.start,
           endDate: this.end
         });
@@ -5835,17 +5523,17 @@ var CalendarRanges_component = normalizeComponent(
       return this.alwaysShowCalendars || this.showCustomRangeCalendars;
     },
     startText: function startText() {
-      if (this.start === null) return '';
+      if (this.start === null) return "";
       return this.$dateUtil.format(this.start, this.locale.format);
     },
     endText: function endText() {
-      if (this.end === null) return '';
+      if (this.end === null) return "";
       return this.$dateUtil.format(this.end, this.locale.format);
     },
     rangeText: function rangeText() {
       var range = this.startText;
 
-      if (!this.singleDatePicker || this.singleDatePicker === 'range') {
+      if (!this.singleDatePicker || this.singleDatePicker === "range") {
         range += this.locale.separator + this.endText;
       }
 
@@ -5861,11 +5549,11 @@ var CalendarRanges_component = normalizeComponent(
       var _ref2;
 
       return _ref2 = {
-        'show-calendar': this.open || this.opens === 'inline',
-        'show-ranges': this.showRanges,
-        'show-weeknumbers': this.showWeekNumbers,
+        "show-calendar": this.open || this.opens === "inline",
+        "show-ranges": this.showRanges,
+        "show-weeknumbers": this.showWeekNumbers,
         single: this.singleDatePicker
-      }, Object(defineProperty["a" /* default */])(_ref2, 'opens' + this.opens, true), Object(defineProperty["a" /* default */])(_ref2, "linked", this.linkedCalendars), Object(defineProperty["a" /* default */])(_ref2, 'hide-calendars', !this.showCalendars), _ref2;
+      }, Object(defineProperty["a" /* default */])(_ref2, "opens" + this.opens, true), Object(defineProperty["a" /* default */])(_ref2, "linked", this.linkedCalendars), Object(defineProperty["a" /* default */])(_ref2, "hide-calendars", !this.showCalendars), _ref2;
     },
     isClear: function isClear() {
       return !this.dateRange.startDate || !this.dateRange.endDate;
@@ -5891,7 +5579,7 @@ var CalendarRanges_component = normalizeComponent(
         month: dt.getMonth() + 1
       });
     },
-    'dateRange.startDate': function dateRangeStartDate(value) {
+    "dateRange.startDate": function dateRangeStartDate(value) {
       if (!this.$dateUtil.isValidDate(new Date(value))) return;
       this.start = !!value && !this.isClear && this.$dateUtil.isValidDate(new Date(value)) ? new Date(value) : null;
 
@@ -5903,7 +5591,7 @@ var CalendarRanges_component = normalizeComponent(
         this.end = new Date(this.dateRange.endDate);
       }
     },
-    'dateRange.endDate': function dateRangeEndDate(value) {
+    "dateRange.endDate": function dateRangeEndDate(value) {
       if (!this.$dateUtil.isValidDate(new Date(value))) return;
       this.end = !!value && !this.isClear ? new Date(value) : null;
 
@@ -5921,12 +5609,12 @@ var CalendarRanges_component = normalizeComponent(
 
         if ((typeof document === "undefined" ? "undefined" : Object(esm_typeof["a" /* default */])(document)) === "object") {
           this.$nextTick(function () {
-            value ? document.body.addEventListener('click', _this.clickAway) : document.body.removeEventListener('click', _this.clickAway);
-            value ? document.addEventListener('keydown', _this.handleEscape) : document.removeEventListener('keydown', _this.handleEscape);
+            value ? document.body.addEventListener("click", _this.clickAway) : document.body.removeEventListener("click", _this.clickAway);
+            value ? document.addEventListener("keydown", _this.handleEscape) : document.removeEventListener("keydown", _this.handleEscape);
 
             if (!_this.alwaysShowCalendars && _this.ranges) {
               _this.showCustomRangeCalendars = !Object.keys(_this.ranges).find(function (key) {
-                return _this.$dateUtil.isSame(_this.start, _this.ranges[key][0], 'date') && _this.$dateUtil.isSame(_this.end, _this.ranges[key][1], 'date');
+                return _this.$dateUtil.isSame(_this.start, _this.ranges[key][0], "date") && _this.$dateUtil.isSame(_this.end, _this.ranges[key][1], "date");
               });
             }
           });
@@ -5941,8 +5629,8 @@ var CalendarRanges_component = normalizeComponent(
 // EXTERNAL MODULE: ./src/components/DateRangePicker.vue?vue&type=style&index=0&lang=scss&
 var DateRangePickervue_type_style_index_0_lang_scss_ = __webpack_require__("0e58");
 
-// EXTERNAL MODULE: ./src/components/DateRangePicker.vue?vue&type=style&index=1&id=0cfd7c52&lang=scss&scoped=true&
-var DateRangePickervue_type_style_index_1_id_0cfd7c52_lang_scss_scoped_true_ = __webpack_require__("e258");
+// EXTERNAL MODULE: ./src/components/DateRangePicker.vue?vue&type=style&index=1&id=3ce4db26&lang=scss&scoped=true&
+var DateRangePickervue_type_style_index_1_id_3ce4db26_lang_scss_scoped_true_ = __webpack_require__("6900");
 
 // CONCATENATED MODULE: ./src/components/DateRangePicker.vue
 
@@ -5960,7 +5648,7 @@ var DateRangePicker_component = normalizeComponent(
   staticRenderFns,
   false,
   null,
-  "0cfd7c52",
+  "3ce4db26",
   null
   
 )
@@ -5968,11 +5656,11 @@ var DateRangePicker_component = normalizeComponent(
 /* harmony default export */ var DateRangePicker = (DateRangePicker_component.exports);
 // CONCATENATED MODULE: ./src/index.js
 
-/* harmony default export */ var src_0 = (DateRangePicker);
+/* harmony default export */ var src = (DateRangePicker);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib.js
 
 
-/* harmony default export */ var entry_lib = __webpack_exports__["default"] = (src_0);
+/* harmony default export */ var entry_lib = __webpack_exports__["default"] = (src);
 
 
 
@@ -5990,12 +5678,8 @@ var toAbsoluteIndex = __webpack_require__("23cb");
 var toLength = __webpack_require__("50c4");
 var toIndexedObject = __webpack_require__("fc6a");
 var createProperty = __webpack_require__("8418");
-var wellKnownSymbol = __webpack_require__("b622");
 var arrayMethodHasSpeciesSupport = __webpack_require__("1dde");
-var arrayMethodUsesToLength = __webpack_require__("ae40");
-
-var HAS_SPECIES_SUPPORT = arrayMethodHasSpeciesSupport('slice');
-var USES_TO_LENGTH = arrayMethodUsesToLength('slice', { ACCESSORS: true, 0: 0, 1: 2 });
+var wellKnownSymbol = __webpack_require__("b622");
 
 var SPECIES = wellKnownSymbol('species');
 var nativeSlice = [].slice;
@@ -6004,7 +5688,7 @@ var max = Math.max;
 // `Array.prototype.slice` method
 // https://tc39.github.io/ecma262/#sec-array.prototype.slice
 // fallback for not array-like ES3 strings and DOM objects
-$({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT || !USES_TO_LENGTH }, {
+$({ target: 'Array', proto: true, forced: !arrayMethodHasSpeciesSupport('slice') }, {
   slice: function slice(start, end) {
     var O = toIndexedObject(this);
     var length = toLength(O.length);
@@ -6100,7 +5784,7 @@ module.exports = NATIVE_SYMBOL
   // eslint-disable-next-line no-undef
   && !Symbol.sham
   // eslint-disable-next-line no-undef
-  && typeof Symbol.iterator == 'symbol';
+  && typeof Symbol() == 'symbol';
 
 
 /***/ })

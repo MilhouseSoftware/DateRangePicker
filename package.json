@@ -15,6 +15,7 @@
     "src"
   ],
   "scripts": {
+    "serve": "vue-cli-service serve --open",
     "components:parse": "node ./docs/.scripts/parse.js",
     "components:watch": "watch \"npm run components:parse\" ./src",
     "lint": "vue-cli-service lint",
