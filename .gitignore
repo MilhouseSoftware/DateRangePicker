@@ -30,3 +30,5 @@ docs/.vuepress/components/SlotsDemo.vue
 docs/.vuepress/styles/index.styl
 docs/.vuepress/styles/palette.styl
 docs/advanced/README.md
+src/App.vue
+src/main.js
