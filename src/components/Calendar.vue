@@ -52,12 +52,15 @@
             @mouseover="$emit('hoverDate', date)"
             :key="idx"
           >
-            <strong>{{ date.getDate() }}</strong>
-            <small style="display: block; line-height: 12px;">{{
-              captionsOfDate && captionsOfDate[date.toISOString().split("T")[0]]
-                ? captionsOfDate[date.toISOString().split("T")[0]]
-                : ""
-            }}</small>
+            <div :class="{ ['td-price']: getPriceOfDate(date) }">
+              <strong>{{ date.getDate() }}</strong>
+              <small style="display: block; line-height: 12px;">{{
+                getPriceOfDate(date, 0) || ""
+              }}</small>
+            </div>
+            <strong class="td-price-decimal">{{
+              getPriceOfDate(date, 2) || ""
+            }}</strong>
           </td>
         </slot>
       </tr>
@@ -91,17 +94,22 @@ export default {
       default: null
     },
     captionsOfDate: {
-      type: Object,
+      type: Array,
       default: null
     }
   },
   data() {
-    const date = new Date();
-    console.log(date.getUTCDate());
     let currentMonthDate = this.monthDate || this.start || new Date();
+    let priceOfDate = !this.captionsOfDate
+      ? {}
+      : this.captionsOfDate.reduce((acc, v) => {
+          acc[v["date"]] = v["price"];
+          return acc;
+        }, {});
     return {
       currentMonthDate,
-      year_text: currentMonthDate.getFullYear()
+      year_text: currentMonthDate.getFullYear(),
+      priceOfDate
     };
   },
   methods: {
@@ -161,6 +169,14 @@ export default {
           this.year_text = this.monthDate.getFullYear();
         });
       }
+    },
+    getPriceOfDate(dt, lenOfDecimal = 0) {
+      const dtKey = dt.toISOString().split("T")[0];
+      if (!this.priceOfDate[dtKey]) {
+        return false;
+      }
+      let val = (this.priceOfDate[dtKey] / 1).toFixed(lenOfDecimal);
+      return "$" + val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
   },
   computed: {
@@ -286,6 +302,14 @@ export default {
       if (this.currentMonthDate.getTime() !== value.getTime()) {
         this.changeMonthDate(value, false);
       }
+    },
+    captionsOfDate: function(newVal) {
+      this.priceOfDate = !newVal
+        ? {}
+        : newVal.reduce((acc, v) => {
+            acc[new Date(v["date"]).toISOString().split("T")[0]] = v["price"];
+            return acc;
+          }, {});
     }
   }
 };
@@ -312,6 +336,19 @@ td.td-date {
   font-weight: 500;
   height: 32px;
   line-height: 14px;
+}
+
+td.td-date .td-price-decimal {
+  display: none;
+}
+
+td.td-date:hover {
+  .td-price {
+    display: none;
+  }
+  .td-price-decimal {
+    display: block;
+  }
 }
 
 @function str-replace($string, $search, $replace: "") {
