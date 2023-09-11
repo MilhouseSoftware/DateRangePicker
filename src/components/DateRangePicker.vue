@@ -466,7 +466,7 @@ export default {
      * The sub text under date
      */
     captionsOfDate: {
-      type: Object,
+      type: Array,
       default: null
     }
   },

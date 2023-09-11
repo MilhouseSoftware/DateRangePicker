@@ -54,13 +54,13 @@
           >
             <div :class="{ ['td-price']: getPriceOfDate(date) }">
               <strong>{{ date.getDate() }}</strong>
-              <small style="display: block; line-height: 12px;">{{
+              <small class="td-price-int">{{
                 getPriceOfDate(date, 0) || ""
               }}</small>
             </div>
-            <strong class="td-price-decimal">{{
-              getPriceOfDate(date, 2) || ""
-            }}</strong>
+            <strong class="td-price-decimal">
+              {{ getPriceOfDate(date, 2) || "" }}
+            </strong>
           </td>
         </slot>
       </tr>
@@ -336,10 +336,15 @@ td.td-date {
   font-weight: 500;
   height: 32px;
   line-height: 14px;
-}
+  .td-price-int {
+    display: block;
+    line-height: 12px;
+    font-size: 12px;
+  }
 
-td.td-date .td-price-decimal {
-  display: none;
+  .td-price-decimal {
+    display: none;
+  }
 }
 
 td.td-date:hover {
